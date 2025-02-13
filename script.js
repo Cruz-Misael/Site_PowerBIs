@@ -1,17 +1,18 @@
 const users = {
-    "Comercial.sebratel": "Com43449",
-    "Instalação.sebratel": "Inst43450",
-    "Manutenção.sebratel": "Man43451",
-    "Infraestrutura.sebratel": "Inf43452",
-    "Suporte.sebratel": "Sup43453",
-    "Operacional.sebratel": "Ope43454",
-    "Financeiro.sebratel": "Fin43455",
-    "PlanejamentoRedes.sebratel": "Plr43456",
-    "Dev.sebratel": "AwuIaSD443562",
-    "Logística.sebratel": "Log43457",
-    "Compras.sebratel": "Comp43458",
-    "Controladoria.sebratel": "Cont43459",
-    "Qualidade.sebratel": "Qua43460"
+    "comercial.sebratel": "Com43449",
+    "gerencia.comercial" : "Gcom434461",
+    "instalação.sebratel": "Inst43450",
+    "manutenção.sebratel": "Man43451",
+    "infraestrutura.sebratel": "Inf43452",
+    "suporte.sebratel": "Sup43453",
+    "operacional.sebratel": "Ope43454",
+    "financeiro.sebratel": "Fin43455",
+    "planejamentoRedes.sebratel": "Plr43456",
+    "dev.sebratel": "AwuIaSD443562",
+    "logística.sebratel": "Log43457",
+    "compras.sebratel": "Comp43458",
+    "controladoria.sebratel": "Cont43459",
+    "qualidade.sebratel": "Qua43460"
 };
 
 document.getElementById("loginForm").addEventListener("submit", function(event) {
