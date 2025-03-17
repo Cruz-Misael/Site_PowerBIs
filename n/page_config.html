@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href=".\images\logo_circular.png">
+    <title>Configurações de Usuários</title>
+    <link rel="stylesheet" href="./styles_config.css">
+</head>
+<body>
+    <div class="config-page-container">
+        <header class="app-header">
+            <h1 class="app-title">Configurações de Usuários</h1>
+            <div>        
+                <button class="back-button" onclick="window.location.href='dashboard.html'">
+                    Voltar
+                </button>
+            </div>
+        </header>
+        <div class="config-content">
+            <div class="form-container">
+                <h2>Informações Pessoais:</h2>
+                <div class="form-field">
+                    <label>Nome:</label>
+                    <input type="text" id="name" placeholder="Digite o nome do usuário...">
+                </div>
+                <div class="form-field">
+                    <label>Email:</label>
+                    <input type="email" id="email" placeholder="Digite o email do usuário...">
+                </div>
+                <div class="form-field">
+                    <label>Acesso:</label>
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="radio" name="accessLevel" value="Admin"> Admin
+                        </label>
+                        <label>
+                            <input type="radio" name="accessLevel" value="User"> User
+                        </label>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label>Setor:</label>
+                    <select id="team" name="team">
+                        <option value="" disabled selected>Selecione um setor</option>
+                        <option value="Instalação">Instalação</option>
+                        <option value="Manutenção">Manutenção</option>
+                        <option value="Planejamento de Redes">Planejamento de Redes</option>
+                        <option value="COR">COR</option>
+                        <option value="CGR">CGR</option>
+                        <option value="DHO">DHO</option>
+                        <option value="Financeiro">Financeiro</option>
+                        <option value="Comercial">Comercial</option>
+                        <option value="Qualidade">Qualidade</option>
+                        <option value="Suporte">Suporte</option>
+                        <option value="Compras">Compras</option>
+                        <option value="Controladoria">Controladoria</option>
+                        <option value="Gerência">Gerência</option>
+                    </select>
+                </div>
+                <button class="save-button" onclick="handleSave()">Salvar</button>
+            </div>
+
+            <div class="table-container">
+                <h2>Tabela de Usuários</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Acesso</th>
+                            <th>Setor</th>
+                            <th>Excluir</th>
+                            <th>Editar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                        <!-- Usuários serão inseridos aqui pelo JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para edição -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h2>Editar Usuário</h2>
+            <div class="form-field">
+                <label>Nome:</label>
+                <input type="text" id="editName">
+            </div>
+            <div class="form-field">
+                <label>Email:</label>
+                <input type="email" id="editEmail">
+            </div>
+            <div class="form-field">
+                <label>Acesso:</label>
+                <div class="form-field">
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="radio" name="editAccessLevel" value="Admin"> Admin
+                        </label>
+                        <label>
+                            <input type="radio" name="editAccessLevel" value="User"> User
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-field">
+                <label>Setor:</label>
+                <select id="editTeam" name="editTeam">
+                    <option value="" disabled>Selecione um setor</option>
+                    <option value="Instalação">Instalação</option>
+                    <option value="Manutenção">Manutenção</option>
+                    <option value="Planejamento de Redes">Planejamento de Redes</option>
+                    <option value="COR">COR</option>
+                    <option value="CGR">CGR</option>
+                    <option value="DHO">DHO</option>
+                    <option value="Financeiro">Financeiro</option>
+                    <option value="Comercial">Comercial</option>
+                    <option value="Qualidade">Qualidade</option>
+                    <option value="Suporte">Suporte</option>
+                    <option value="Compras">Compras</option>
+                    <option value="Controladoria">Controladoria</option>
+                    <option value="Gerência">Gerência</option>
+                </select>
+            </div>
+            <button class="save-button" onclick="handleUpdate()">Atualizar</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./page_config.js"></script>
+</body>
+</html>

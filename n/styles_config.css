@@ -1,0 +1,309 @@
+/* Estilização global */
+html, body {
+margin: 0;
+padding: 0;
+height: 100%; /* Garante que o body ocupe toda a tela */
+font-family: Arial, sans-serif;
+color: #413737;
+overflow-x: hidden;
+}
+
+body {
+background: url('images/605743.jpg') no-repeat center center fixed;
+background-size: cover; /* Faz com que a imagem cubra toda a tela */
+display: flex;
+flex-direction: column;
+}
+
+.app-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 10px 20px;
+background-color: #a73636;
+color: #fff;
+height: 40px; /* Altura consistente */
+box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Logo no canto esquerdo */
+.logo {
+height: 50px;
+}
+
+
+.logo_inicial {
+  height: 200px;
+}
+.app-logo {
+  height: 400%; /* Ajuste proporcional ao cabeçalho */
+}
+
+.app-title {
+  flex-grow: 1; /* Permite que o título ocupe espaço no meio */
+  text-align: center;
+  font-size: 25px;
+  color: #ffffff;
+  font-weight: bold;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.user-info {
+  font-size: 14px;
+}
+
+/* Configura a página inteira */
+.config-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Cabeçalho */
+.config-header {
+  background-color: #a73636;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.config-header h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.user-info {
+  font-size: 14px;
+}
+
+/* Conteúdo principal */
+.config-content {
+  display: flex;
+  flex: 1;
+  padding: 10px;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+/* Formulário */
+.form-container {
+  flex: 1;
+  padding: 30px;
+  background:rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+  margin-bottom: 15px;
+}
+
+.form-field {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+}
+
+.form-field input,
+.form-field select {
+  width: 95%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.form-field input:focus,
+.form-field select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+.form-field select {
+  background-color: #fff;
+  cursor: pointer;
+}
+
+
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: normal;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #007bff;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.checkbox-group input[type="checkbox"]:hover {
+  transform: scale(1.1);
+}
+
+
+.save-button {
+  padding: 10px 20px;
+  background-color: #831010;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  background-color: #003f8a;
+}
+
+/* Tabela */
+.table-container {
+  flex: 2;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-container th,
+.table-container td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.table-container th {
+  background-color: #a73636;
+  color: white;
+}
+
+.delete-button {
+  padding: 5px 10px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #831010;
+}
+
+.message {
+  color: #28a745;
+  margin-bottom: 15px;
+}
+
+.back-button {
+  background-color: #003f8a;
+  color: white;
+  width: 120px;
+  height: 35px;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.back-button:hover {
+  background-color: #a08a8c;
+}
+
+
+/* Botão Editar */
+.edit-button {
+padding: 5px 10px;
+background-color: #007bff; /* Azul para diferenciar do vermelho do delete */
+color: white;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+}
+
+.edit-button:hover {
+background-color: #0056b3; /* Tom mais escuro ao passar o mouse */
+}
+
+/* ... (seu CSS existente permanece intacto) */
+
+/* Modal */
+.modal {
+display: none; /* Escondido por padrão */
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.5); /* Fundo escurecido */
+justify-content: center;
+align-items: center;
+}
+
+.modal-content {
+background-color: white;
+padding: 20px;
+border-radius: 8px;
+width: 90%;
+max-width: 500px;
+position: relative;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.close-button {
+position: absolute;
+top: 10px;
+right: 15px;
+font-size: 24px;
+cursor: pointer;
+color: #333;
+}
+
+.close-button:hover {
+color: #831010;
+}
+
+/* Botão Editar (ajuste anterior mantido) */
+.edit-button {
+padding: 5px 10px;
+background-color: #007bff;
+color: white;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+}
+
+.edit-button:hover {
+background-color: #0056b3;
+}

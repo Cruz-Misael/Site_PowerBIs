@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href=".\images\logo_circular.png">
+    <title>Alterar Senha</title>
+    <link rel="stylesheet" href="./styles_cadastro.css"> <!-- Assumindo que o CSS ainda é usado -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- Font Awesome via CDN -->
+</head>
+<body>
+    <div class="page-cadastro-container">
+        <button class="back-button" onclick="handleBackToLogin()">
+            <i class="fa fa-arrow-left"></i> <!-- Ícone de seta -->
+        </button>
+        <h2>Alterar Senha</h2>
+        <div class="form-field">
+            <label class="label">Email:</label>
+            <input type="email" id="email" placeholder="Digite seu email" onblur="checkEmailExists()">
+        </div>
+        <div class="form-field">
+            <label class="label">Nova Senha:</label>
+            <input type="password" id="password" placeholder="Digite a nova senha">
+        </div>
+        <div class="form-field">
+            <label class="label">Confirmar Senha:</label>
+            <input type="password" id="confirmPassword" placeholder="Confirme a senha">
+        </div>
+        <p id="error-message" class="error-message" style="display: none;"></p>
+        <p id="success-message" class="success-message" style="display: none;"></p>
+        <button class="save-button" onclick="handleChangePassword()">Alterar Senha</button>
+    </div>
+
+    <!-- Incluindo o script JS -->
+    <script src="./cadastro.js"></script>
+</body>
+</html>

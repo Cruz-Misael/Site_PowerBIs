@@ -11,6 +11,11 @@ body {
     height: 100vh;
 }
 
+.label {
+    text-align: left;
+    padding-left: 15px;
+
+}
 /* Container da tela de login */
 .login-container {
     background: rgba(0, 0, 0, 0.6); /* Fundo escuro semi-transparente para melhor contraste */
@@ -35,7 +40,9 @@ body {
     border-radius: 5px;
     font-size: 1em;
 }
-.login-container button {
+
+
+.login-button {
     width: 100%;
     padding: 10px;
     background: #c02525;
@@ -45,8 +52,22 @@ body {
     font-size: 1em;
     cursor: pointer;
     transition: background 0.3s;
-    
 }
+
+.register-button {
+    width: 80%;
+    padding: 10px;
+    background: #003f8a;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 5px; /* Espaço de 10px entre os botões */
+}
+
+
 .login-container button:hover {
     background: #f5d33d;
 }
