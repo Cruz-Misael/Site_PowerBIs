@@ -1,0 +1,90 @@
+/* Container da tela de login */
+.login-container {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    justify-content: center ;
+    align-items: center ;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    width: 400px;
+    text-align: center !important;
+}
+
+.login-container img {
+    width: 250px;
+    margin-bottom: -50px;
+}
+
+.login-container h3 {
+    align-items: flex-start; /* Isso não funciona aqui, talvez você queira text-align ou outro ajuste */
+}
+
+.login-container input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.login-container h2 {
+    color:#fff
+}
+
+.login-container label {
+    color:#fff !important;
+}
+
+.login-button {
+    width: 100%;
+    padding: 10px;
+    background: #c02525;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+
+.register-button {
+    width: 80%;
+    padding: 10px;
+    background: #003f8a;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 5px;
+}
+
+.login-button:hover {
+    background: #a08a8c;
+}
+
+.register-button:hover {
+    background: #a08a8c;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+/* Logo da empresa */
+.logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+/* Responsividade */
+@media (max-width: 400px) {
+    .login-container {
+        width: 90%;
+    }
+}

@@ -1,0 +1,218 @@
+/* Estilização específica para a página */
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  color: #413737; /* Cor padrão do exemplo */
+  background: url('../assets/605743.jpg') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Ajustado para um valor fixo em vez de variável */
+}
+
+.logo {
+  height: 50px; /* Ajustado para o exemplo */
+}
+
+.title {
+  flex-grow: 1;
+  text-align: center;
+  font-size: 25; /* Ajustado para o exemplo */
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  margin: 0;
+}
+
+/* Conteúdo principal */
+.teams-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.config-content {
+  display: flex;
+  flex: 1;
+  padding: 60px 10px 10px 10px; /* Espaço para o header fixo */
+  gap: 10px; /* Ajustado para o exemplo */
+  overflow-y: auto;
+}
+
+/* Formulário */
+.form-container {
+  flex: auto;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.8); /* Ajustado para o exemplo */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+  margin-bottom: 15px;
+  font-size: 20px;
+  color: #333;
+}
+
+.cancel-button{
+  background-color: #c02525; /* Vermelho do exemplo */
+  color: white;
+  padding: 10px 20px; /* Ajustado para o exemplo */
+  border-radius: 4px; /* Ajustado para o exemplo */
+  font-size: 15px; /* Ajustado para o exemplo */
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* Ajustado para o exemplo */
+  transition: background-color 0.3s ease; /* Transição ajustada */
+}
+
+.cancel-button:hover {
+  background-color: #a08a8c; /* Tom mais escuro do vermelho, ajustado para o exemplo */
+}
+.form-field {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  font-size: smaller; /* Ajustado para o exemplo */
+}
+
+.form-field textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem; /* 6px */
+  resize: vertical;
+  font-size: 12px; /* Ajustado para o exemplo */
+  font-family: inherit;
+}
+
+.form-field textarea:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.save-button{
+  background-color: #007bff !important; /* Azul do exemplo */
+  color: white;
+  padding: 10px 20px; /* Ajustado para o exemplo */
+  border-radius: 4px; /* Ajustado para o exemplo */
+  font-size: 15px; /* Ajustado para o exemplo */
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* Ajustado para o exemplo */
+  transition: background-color 0.3s ease; /* Transição ajustada */
+}
+
+.table-container {
+  flex: auto;
+  padding: 20px; /* Ajustado para o exemplo */
+  background: rgba(255, 255, 255, 0.8); /* Fundo semi-transparente do exemplo */
+  border-radius: 8px; /* Ajustado para o exemplo */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra do exemplo */
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px; /* Ajustado para o exemplo */
+  padding: 10px 0; /* Ajustado para o exemplo */
+  border-top: 1px solid #ddd; /* Ajustado para o exemplo */
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px; /* Ajustado para o exemplo */
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.8); /* Fundo semi-transparente do exemplo */
+  border-radius: 8px; /* Ajustado para o exemplo */
+  padding: 20px; /* Ajustado para o exemplo */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra do exemplo */
+  border: 1px solid #ddd; /* Ajustado para o exemplo */
+  margin-bottom: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transições ajustadas */
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra maior no hover */
+  transform: translateY(-4px);
+}
+
+.subtitle {
+  color: #333; /* Cor ajustada para o exemplo */
+  margin-bottom: 15px; /* Ajustado para o exemplo */
+  font-size: 18px; /* Ajustado para parecer com o h2 do exemplo */
+  font-weight: 600;
+}
+
+.text {
+  color: #666; /* Cor ajustada para o exemplo */
+  margin-bottom: 15px; /* Ajustado para o exemplo */
+  font-size: 14px; /* Consistente com o exemplo */
+}
+
+.buttonSuccess {
+  padding: 10px 20px; /* Ajustado para o exemplo */
+  border-radius: 4px; /* Ajustado para o exemplo */
+  font-size: 15px; /* Ajustado para o exemplo */
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* Ajustado para o exemplo */
+  transition: background-color 0.3s ease; /* Transição ajustada */
+  background-color: #28a745; /* Verde de sucesso do exemplo */
+  color: white;
+}
+
+.buttonSuccess:hover {
+  background-color: #218838; /* Tom mais escuro do verde, ajustado para o exemplo */
+}
+
+/* Media queries locais */
+@media (max-width: 768px) {
+  .container {
+      padding: 60px 10px 10px 10px; /* Ajustado para o exemplo */
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+      font-size: 14px;
+  }
+
+  .title {
+      font-size: 16px; /* Ajustado para o exemplo */
+  }
+
+  .logoContainer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px; /* Ajustado para o exemplo */
+  }
+}

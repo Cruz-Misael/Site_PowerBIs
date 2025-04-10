@@ -1,0 +1,231 @@
+
+.back-button {
+  background-color: #003f8a;
+  color: white;
+  width: 120px;
+  height: 30%;
+  padding: 7px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.3s;
+}
+
+.back-button:hover {
+  background-color: #a08a8c; /* Cor do exemplo */
+}
+
+/* Conteúdo principal */
+.dashboard-admin {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 60px 20px 20px 20px; /* Espaço para o header fixo de 40px + margem */
+  overflow-y: auto; /* Habilita rolagem vertical */
+  gap: 20px;
+  max-width: 1200px; /* Limita a largura para evitar "zoom" excessivo */
+  margin: 0 auto; /* Centraliza o conteúdo */
+  box-sizing: border-box;
+}
+
+.dashboard-admin-content {
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 50px); /* Desconta o header fixo */
+  padding: 10px;
+  overflow-y: auto; /* Habilita o scroll */
+  gap: 10px;
+  margin-top: 50px; /* Compensa o header fixo */
+}
+
+.create-dashboard textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem; /* 6px */
+  resize: vertical;
+  font-size: 12px; /* Ajustado para o exemplo */
+  font-family: inherit;
+}
+
+.create-dashboard textarea:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+/* Seção de criação de dashboard */
+.create-dashboard {
+  flex: 1;
+  padding: 50px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: calc(100vh - 180px)
+}
+
+.create-dashboard h2 {
+  margin: 0 0 15px 0;
+  font-size: 20px;
+  color: #333; /* Cor do texto do exemplo */
+}
+
+.create-dashboard input,
+.create-dashboard textarea {
+  width: 95%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.create-dashboard input:focus,
+.create-dashboard textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+.create-dashboard button {
+  padding: 10px 20px;
+  background-color: #831010;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.3s;
+}
+
+.create-dashboard button:hover {
+  background-color: #a08a8c; /* Cor do hover do exemplo */
+}
+
+/* Lista de dashboards */
+.dashboard-list {
+  flex: 2;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: calc(100vh - 120px);
+  }
+
+
+.dashboard-list h2 {
+  margin: 0 0 15px 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.dashboard-item {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-item h3 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.dashboard-item p {
+  margin: 0 0 10px 0;
+  color: #666;
+}
+
+/* Controle de acesso */
+.access-control {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.access-control select {
+  width: 70%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.access-control button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.access-control button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.access-control button:disabled:hover {
+  background-color: #ccc;
+}
+.access-control button:hover {
+  background-color: #0056b3;
+}
+
+/* Lista de acessos atuais */
+.current-access {
+  margin-top: 15px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+}
+
+.current-access strong {
+  font-size: 14px;
+  color: #333;
+}
+
+.current-access ul {
+  list-style: none;
+  padding: 0;
+  margin: 5px 0 0 0;
+}
+
+.current-access li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+.remove-access {
+  padding: 5px 10px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.remove-access:hover {
+  background-color: #831010;
+}

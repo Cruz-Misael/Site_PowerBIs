@@ -1,0 +1,176 @@
+/* Footer Revisado */
+.footer-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(167, 54, 54, 0.95);
+  padding: 0.8rem 1rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  color: white;
+  font-size: 0.8rem;
+  text-align: center;
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  box-sizing: border-box;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+  height: 10px;
+}
+
+/* Container de botões com espaçamento elegante */
+.button-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Botões Modernos/Minimalistas */
+.config-btn {
+  width: 100%;
+  height: 20%;
+  padding: 7px;
+  background: #003f8a ;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.config-btn:hover {
+  background: #a08a8c;
+}
+
+.Teams-btn {
+  width: 100%;
+  height: 30%;
+  padding: 7px;
+  background: #003f8a ;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.Teams-btn:hover {
+  background: #a08a8c;
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin-top: 20px;
+  overflow-y: auto;
+  padding: 80px 20px 30px; /* Top, Left/Right, Bottom (ajustado para header e footer) */
+  box-sizing: border-box;
+}
+
+.promo-cards{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.185) !important;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(2px);
+  max-height: calc(100vh - 10px - 120px); /* Altura total da tela - altura do footer - altura do header */
+  overflow: auto;
+  margin-bottom: 50px;
+}
+
+.card {
+  background: rgba(0, 0, 0, 0.664)!important;
+  border-radius: 12px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  color:#fff;
+  height: 400px;
+  padding: 20px;
+  font-family:Arial, Helvetica, sans-serif;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(10px);
+  margin: 10px;
+  max-width: 300px;
+}
+
+.card-logo {
+  width: 80px;
+  margin-bottom: 10px;
+}
+
+.dashboard-frame {
+  width: 100%;
+  height: 200px;
+  border-radius: 8px;
+  margin-top: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(255, 255, 255, 0.3);
+}
+
+.DashboardAdmin-btn {
+  width: 100%;
+  height: 30%;
+  padding: 7px;
+  background: #003f8a ;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.DashboardAdmin-btn:hover {
+  background: #a08a8c;
+}
+
+.logout-btn {
+  width: 200px;
+  height: 40%;
+  padding: 7px;
+  background: #c02525 ;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #a08a8c;
+
+}
+
+
+/* Ajustes Específicos para Mobile */
+@media (max-width: 768px) {
+  .header-title {
+    font-size: 1.5rem;
+  }
+  .main-content {
+    padding-top: 90px ; /* Ajuste para o header */
+    padding-bottom: 60px; /* Ajuste para o footer */
+  }
+  .promo-cards {
+    margin-top: 20%;
+  }
+}
+
+
