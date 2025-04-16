@@ -1,9 +1,10 @@
 
 // DashboardAdmin.jsx
+import React from 'react'; 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/DashboardAdmin.css';
-import logo from '../assets/sebraFundoBranco.jpg'; // logo do Power BI
+import logo from '../assets/sebraFundoBranco.jpg';
 const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 function DashboardAdmin() {

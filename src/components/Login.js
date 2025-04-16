@@ -2,6 +2,8 @@ import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Login.css';
 import logo from '../assets/logo_personalizado.png'; // Importando a imagem do logo
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -39,7 +41,7 @@ const Login = () => {
     
     setIsCheckingEmail(true);
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/check-email`, {
+      const response = await fetch(`${API_BASE_URL}/check-email`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: emailToCheck })
@@ -83,7 +85,7 @@ const Login = () => {
     setSuccessMessage('');
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
+      const response = await fetch(`${API_BASE_URL}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
