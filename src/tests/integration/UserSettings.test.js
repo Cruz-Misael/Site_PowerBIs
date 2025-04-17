@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor} from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import axios from 'axios';
 import UserSettings from '../../components/UserSettings';
@@ -71,11 +71,13 @@ describe('UserSettings - Integration Tests', () => {
       </MemoryRouter>
     );
 
-    fireEvent.change(screen.getByLabelText('Nome:'), { target: { value: 'Novo Usuário' } });
+    const nomeInput = await screen.findByLabelText('Nome:');
+    fireEvent.change(nomeInput, { target: { value: 'Novo Usuário' } });
+
     fireEvent.change(screen.getByLabelText('Email:'), { target: { value: 'novo@test.com' } });
     fireEvent.click(screen.getByLabelText('Admin'));
     fireEvent.change(screen.getByLabelText('Setor:'), { target: { value: 'Dev Team' } });
-    fireEvent.click(screen.getByText('Salvar'));
+    fireEvent.click(screen.getByText('/salvar/i'));
 
     await waitFor(() => {
       expect(axios.post).toHaveBeenCalledWith(
@@ -109,7 +111,7 @@ describe('UserSettings - Integration Tests', () => {
     );
 
     await waitFor(() => {
-      fireEvent.click(screen.getByText('✏️'));
+      fireEvent.click(screen.getByTestId('edit-button'));
     });
 
     fireEvent.change(screen.getByDisplayValue('Usuário 1'), { target: { value: 'Usuário Editado' } });
@@ -142,7 +144,7 @@ describe('UserSettings - Integration Tests', () => {
     );
 
     await waitFor(() => {
-      fireEvent.click(screen.getByText('❌'));
+      fireEvent.click(screen.getByTestId('delete-button'));   
     });
 
     expect(window.confirm).toHaveBeenCalled();

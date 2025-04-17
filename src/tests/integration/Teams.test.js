@@ -88,7 +88,7 @@ describe('Teams Component - Integration Tests', () => {
     window.confirm = jest.fn(() => true); // Mock do confirm
 
     await waitFor(() => {
-      fireEvent.click(screen.getByText('❌'));
+      fireEvent.click(screen.get('❌'));
     });
 
     expect(fetch).toHaveBeenCalledWith(

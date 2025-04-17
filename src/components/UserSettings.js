@@ -181,7 +181,7 @@ const UserSettings = () => {
         <div className="form-container">
           <h2>Informações Pessoais:</h2>
           <div className="form-field">
-            <label>Nome:</label>
+            <label htmlFor='name'>Nome:</label>
             <input 
               type="text" 
               name="name"
@@ -264,6 +264,7 @@ const UserSettings = () => {
                     <button 
                       className="delete-button" 
                       onClick={() => handleDelete(user.id)}
+                      data-testid="delete-button"
                     >
                       ❌
                     </button>
@@ -272,9 +273,9 @@ const UserSettings = () => {
                     <button 
                       className="edit-button" 
                       onClick={() => openEditModal(user)}
+                      data-testid="edit-button"
                     >
-                      ✏️
-                    </button>
+                      ✏️</button>
                   </td>
                 </tr>
               ))}

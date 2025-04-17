@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import Login from '../../components/Login';
 import React from 'react';
 
-
+//exemplo de teste unitário com jest e react-testing-library
 const sum = (a, b) => a + b;
 sum (1,2);
 describe('App Component', () => {
