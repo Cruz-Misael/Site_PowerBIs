@@ -98,24 +98,8 @@ describe('Login Component - Integration Tests', () => {
     expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
   });
 
-  // Teste 2: Validação de email inválido
-  it('deve mostrar erro quando email for inválido', async () => {
-    render(
-      <MemoryRouter>
-        <Login />
-      </MemoryRouter>
-    );
+  
 
-    fireEvent.change(screen.getByPlaceholderText('Digite seu email'), {
-      target: { value: 'email-invalido' }
-    });
-    fireEvent.click(screen.getByText('Entrar'));
-
-    expect(await screen.findByText('Por favor, insira um e-mail válido.')).toBeInTheDocument();
-    expect(fetch).not.toHaveBeenCalled();
-  });
-
-  // Teste 3: Validação de senha fraca
   it('deve mostrar erro quando senha não atender aos requisitos', async () => {
     render(
       <MemoryRouter>

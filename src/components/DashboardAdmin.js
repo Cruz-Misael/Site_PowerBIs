@@ -90,7 +90,6 @@ function DashboardAdmin() {
         })
       );
 
-
       setDashboards(dashboardsWithAccess);
       
       // Inicializa accessRules com os valores atuais
@@ -119,9 +118,6 @@ function DashboardAdmin() {
       }
     } catch (error) {
       console.error('Falha ao carregar times:', error);
-      // Fallback temporário para não quebrar o sistema
-      setTeams(["Comercial", "Instalação", "Manutenção", "Infraestrutura", "Suporte"]);
-      alert('Erro ao carregar times. Usando lista temporária.');
     }
   };
 

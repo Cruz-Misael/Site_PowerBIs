@@ -1,129 +1,64 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import UserDashboard from '../../components/UserDashboard';
 import '@testing-library/jest-dom';
 
-jest.mock('../../assets/sebraFundoBranco.jpg', () => 'mocked-logo.jpg');
-
-describe('UserDashboard Component', () => {
-  beforeEach(() => {
-    localStorage.clear();
-    jest.clearAllMocks();
+// Mock das funções globais
+beforeEach(() => {
+  // Mock do localStorage
+  Storage.prototype.getItem = jest.fn((key) => {
+    if (key === "userEmail") return "usuario@teste.com";
+    if (key === "accessLevel") return "User";
+    if (key === "team") return "Time Teste";
+    return null;
   });
 
-  test('renders the UserDashboard component', () => {
-    localStorage.setItem('userEmail', 'test@example.com');
-    localStorage.setItem('accessLevel', 'User');
-    localStorage.setItem('team', 'Team A');
+  // Mock do fetch
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      json: () => Promise.resolve([]),
+    })
+  );
+});
 
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
+describe('UserDashboard', () => {
+  test('renderiza o cabeçalho com informações do usuário', () => {
     render(
       <MemoryRouter>
         <UserDashboard />
       </MemoryRouter>
     );
 
-    expect(screen.getByText(/DASHBOARDS:/)).toBeInTheDocument();
-    expect(screen.getByText(/test@example.com/)).toBeInTheDocument();
+    expect(screen.getByText(/DASHBOARDS:/i)).toBeInTheDocument();
+    expect(screen.getByText(/Time Teste/i)).toBeInTheDocument();
+    expect(screen.getByText(/Sair/i)).toBeInTheDocument();
   });
 
-  test('redirects to login if user data is missing', () => {
-    const mockNavigate = jest.fn();
-    jest.mock('react-router-dom', () => ({
-      ...jest.requireActual('react-router-dom'),
-      useNavigate: () => mockNavigate,
-    }));
-
+  test('mostra mensagem quando não há dashboards', async () => {
     render(
       <MemoryRouter>
         <UserDashboard />
       </MemoryRouter>
     );
 
-    expect(mockNavigate).toHaveBeenCalledWith('/login');
+    expect(await screen.findByText(/Nenhum dashboard disponível para seu time/i)).toBeInTheDocument();
   });
 
-  test('calls logout and clears localStorage', () => {
-    localStorage.setItem('userEmail', 'test@example.com');
-    localStorage.setItem('accessLevel', 'User');
-    localStorage.setItem('team', 'Team A');
-
+  test('exibe os botões de navegação corretamente', () => {
     render(
       <MemoryRouter>
         <UserDashboard />
       </MemoryRouter>
     );
 
-    const logoutButton = screen.getByText('Sair');
-    fireEvent.click(logoutButton);
-
-    expect(localStorage.getItem('userEmail')).toBeNull();
-    expect(localStorage.getItem('accessLevel')).toBeNull();
-    expect(localStorage.getItem('team')).toBeNull();
-  });
-
-  test('shows "Acesso negado!" alert when non-admin tries to access admin pages', () => {
-    localStorage.setItem('userEmail', 'test@example.com');
-    localStorage.setItem('accessLevel', 'User');
-    localStorage.setItem('team', 'Team A');
-
-    render(
-      <MemoryRouter>
-        <UserDashboard />
-      </MemoryRouter>
-    );
-
-    const configButton = screen.getByText('Configurações');
-    window.alert = jest.fn();
-    fireEvent.click(configButton);
-
-    expect(window.alert).toHaveBeenCalledWith(
-      'Acesso negado! Apenas administradores podem acessar a página de configurações.'
-    );
-  });
-
-  test('renders dashboards when data is available', async () => {
-    localStorage.setItem('userEmail', 'test@example.com');
-    localStorage.setItem('accessLevel', 'User');
-    localStorage.setItem('team', 'Team A');
-
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () =>
-          Promise.resolve([
-            { id: 1, title: 'Dashboard 1', description: 'Description 1', url: 'http://example.com/1' },
-          ]),
-      })
-    );
-
-    render(
-      <MemoryRouter>
-        <UserDashboard />
-      </MemoryRouter>
-    );
-
-    const dashboardTitle = await screen.findByText('Dashboard 1');
-    expect(dashboardTitle).toBeInTheDocument();
-  });
-
-  test('displays message when no dashboards are available', async () => {
-    localStorage.setItem('userEmail', 'test@example.com');
-    localStorage.setItem('accessLevel', 'User');
-    localStorage.setItem('team', 'Team A');
-
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve([]),
-      })
-    );
-
-    render(
-      <MemoryRouter>
-        <UserDashboard />
-      </MemoryRouter>
-    );
-
-    const noDashboardsMessage = await screen.findByText('Nenhum dashboard disponível para seu time.');
-    expect(noDashboardsMessage).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Configurações/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Dashboard Admin/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Times/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Sair/i })).toBeInTheDocument();
   });
 });

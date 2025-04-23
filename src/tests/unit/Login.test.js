@@ -6,6 +6,7 @@ import React from 'react';
 //exemplo de teste unitário com jest e react-testing-library
 const sum = (a, b) => a + b;
 sum (1,2);
+
 describe('App Component', () => {
     test('Should sum correctly', () => {
         expect(sum(1, 2)).toBe(3);
@@ -15,7 +16,7 @@ describe('App Component', () => {
 
 
 
-describe('Componente Login', () => {
+describe('Component Login', () => {
   test('Should render login component', () => {
     render(
       <MemoryRouter>

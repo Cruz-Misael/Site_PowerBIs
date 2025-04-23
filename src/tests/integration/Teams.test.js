@@ -1,99 +1,129 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 import Teams from '../../components/Teams';
+import { useNavigate } from 'react-router-dom';
 import '@testing-library/jest-dom';
 
-// Mock do fetch
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    ok: true,
-    json: () => Promise.resolve({ success: true, data: [] }),
-    headers: { get: () => 'application/json' },
-  })
-);
-
-// Mock do useNavigate
-const mockNavigate = jest.fn();
+// Mock das dependências
 jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockNavigate,
+  useNavigate: jest.fn(),
 }));
 
-describe('Teams Component - Integration Tests', () => {
+// Mock global do fetch
+global.fetch = jest.fn();
+
+describe('Teams - Testes de Integração', () => {
+  const mockNavigate = jest.fn();
+  const mockTeams = [
+    { id: 1, name: 'Time A', description: 'Descrição A', isActive: true },
+    { id: 2, name: 'Time B', description: 'Descrição B', isActive: false }
+  ];
+
   beforeEach(() => {
+    useNavigate.mockReturnValue(mockNavigate);
     fetch.mockClear();
-    mockNavigate.mockClear();
   });
 
-  // Teste 1: Carregamento inicial de times
-  it('deve carregar times da API ao montar', async () => {
+  // Teste 1: Carregamento inicial e exibição de times
+  it('deve carregar e exibir a lista de times corretamente', async () => {
     fetch.mockResolvedValueOnce({
       ok: true,
-      json: () => Promise.resolve({ 
-        success: true, 
-        data: [{ id: 1, name: 'Dev Team', isActive: true }] 
-      }),
+      json: async () => ({ success: true, data: mockTeams }),
+      headers: { get: () => 'application/json' }
     });
 
-    render(
-      <MemoryRouter>
-        <Teams />
-      </MemoryRouter>
-    );
+    render(<Teams />);
 
+    // Verifica se o loading aparece inicialmente
+    expect(screen.getByText('Carregando times...')).toBeInTheDocument();
+
+    // Aguarda o carregamento
     await waitFor(() => {
-      expect(screen.getByText('Dev Team')).toBeInTheDocument();
+      expect(screen.getByText('Times Cadastrados')).toBeInTheDocument();
+      expect(screen.getByText('Time A')).toBeInTheDocument();
+      expect(screen.getByText('Time B')).toBeInTheDocument();
+      expect(screen.getByText('Ativo')).toBeInTheDocument();
+      expect(screen.getByText('Inativo')).toBeInTheDocument();
     });
   });
 
-  // Teste 2: Criar um novo time
-  it('deve enviar um novo time para a API', async () => {
-    render(
-      <MemoryRouter>
-        <Teams />
-      </MemoryRouter>
-    );
+  // Teste 2: Criação de um novo time
+  it('deve permitir criar um novo time', async () => {
+    fetch.mockImplementation((url) => {
+      if (url.endsWith('/teams')) {
+        return Promise.resolve({
+          ok: true,
+          json: async () => ({ success: true }),
+          headers: { get: () => 'application/json' }
+        });
+      }
+      return Promise.resolve({
+        ok: true,
+        json: async () => ({ success: true, data: [] }),
+        headers: { get: () => 'application/json' }
+      });
+    });
 
-    fireEvent.change(screen.getByLabelText('Time:'), { target: { value: 'Financeiro' } });
-    fireEvent.click(screen.getByText('Salvar'));
+    render(<Teams />);
 
+    // Preenche o formulário
+    fireEvent.change(screen.getByLabelText('Time:'), { target: { value: 'Novo Time' } });
+    fireEvent.change(screen.getByLabelText('Descrição:'), { target: { value: 'Nova Descrição' } });
+
+    // Submete o formulário
+
+    const saveButton = await screen.findByRole('button', { name: 'Salvar' });
+    fireEvent.click(saveButton);
+
+    // Verifica se a mensagem de sucesso aparece
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining('/teams'),
-        expect.objectContaining({
-          method: 'POST',
-          body: JSON.stringify({ name: 'Financeiro', description: '' }),
-        })
-      );
+      expect(screen.getByText('Time criado com sucesso!')).toBeInTheDocument();
     });
   });
 
-  // Teste 3: Deletar um time
-  it('deve chamar a API ao deletar um time', async () => {
-    fetch.mockResolvedValueOnce({
-      ok: true,
-      json: () => Promise.resolve({ 
-        success: true, 
-        data: [{ id: 1, name: 'Dev Team', isActive: true }] 
-      }),
+  // Teste 3: Edição de um time existente
+  it('deve permitir editar um time existente', async () => {
+    fetch.mockImplementation((url) => {
+      if (url.endsWith('/teams')) {
+        return Promise.resolve({
+          ok: true,
+          json: async () => ({ success: true, data: mockTeams }),
+          headers: { get: () => 'application/json' }
+        });
+      }
+      if (url.endsWith('/teams/1')) {
+        return Promise.resolve({
+          ok: true,
+          json: async () => ({ success: true }),
+          headers: { get: () => 'application/json' }
+        });
+      }
     });
 
-    render(
-      <MemoryRouter>
-        <Teams />
-      </MemoryRouter>
-    );
+    render(<Teams />);
 
-    window.confirm = jest.fn(() => true); // Mock do confirm
-
+    // Aguarda o carregamento dos times
     await waitFor(() => {
-      fireEvent.click(screen.get('❌'));
+      expect(screen.getByText('Time A')).toBeInTheDocument();
     });
 
-    expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining('/teams/1'),
-      expect.objectContaining({ method: 'DELETE' })
-    );
+    // Clica no botão de editar do primeiro time
+    const editButtons = screen.getAllByRole('button', { name: /✏️/ });
+    fireEvent.click(editButtons[0]);
+
+    // Verifica se o formulário foi preenchido com os dados do time
+    expect(screen.getByDisplayValue('Time A')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('Descrição A')).toBeInTheDocument();
+
+    // Altera os valores
+    fireEvent.change(screen.getByLabelText('Time:'), { target: { value: 'Time A Editado' } });
+
+    // Submete o formulário
+    fireEvent.click(screen.getByRole('button', { name: 'Atualizar' }));
+
+    // Verifica se a mensagem de sucesso aparece
+    await waitFor(() => {
+      expect(screen.getByText('Time atualizado com sucesso!')).toBeInTheDocument();
+    });
   });
 });

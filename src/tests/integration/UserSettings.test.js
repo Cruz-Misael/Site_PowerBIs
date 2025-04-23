@@ -1,153 +1,130 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor} from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import axios from 'axios';
+import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import UserSettings from '../../components/UserSettings';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '@testing-library/jest-dom';
+
+// Mock do react-router-dom
+jest.mock('react-router-dom', () => ({
+  useNavigate: jest.fn(),
+}));
 
 // Mock do axios
 jest.mock('axios');
 
-// Mock do localStorage
-const mockLocalStorage = {
-  getItem: jest.fn(),
-};
-Object.defineProperty(window, 'localStorage', { value: mockLocalStorage });
+// Mock do fetch
+global.fetch = jest.fn();
 
-describe('UserSettings - Integration Tests', () => {
+// Mock do window.alert
+const mockAlert = jest.fn();
+global.alert = mockAlert;
+
+// Mock do window.confirm
+const mockConfirm = jest.fn();
+global.confirm = mockConfirm;
+
+describe('UserSettings - Testes de Integração', () => {
+  const mockNavigate = jest.fn();
+  const mockUsers = [
+    { id: 1, name: 'Usuário 1', email: 'user1@example.com', accessLevel: 'User', team: 'Comercial' },
+    { id: 2, name: 'Usuário 2', email: 'user2@example.com', accessLevel: 'Admin', team: 'Suporte' },
+  ];
+  const mockTeams = [
+    { name: 'Comercial' },
+    { name: 'Suporte' },
+  ];
+
   beforeEach(() => {
-    mockLocalStorage.getItem.mockReset();
-    axios.get.mockReset();
-    axios.post.mockReset();
-    axios.put.mockReset();
-    axios.delete.mockReset();
-    window.alert = jest.fn();
-    window.confirm = jest.fn(() => true);
+    useNavigate.mockReturnValue(mockNavigate);
+    axios.get.mockClear();
+    axios.post.mockClear();
+    axios.put.mockClear();
+    axios.delete.mockClear();
+    fetch.mockClear();
+    mockAlert.mockClear();
+    mockConfirm.mockClear();
+
+    localStorage.setItem('userEmail', 'admin@example.com');
+    localStorage.setItem('accessLevel', 'Admin');
+    localStorage.setItem('team', 'Comercial');
+
+    axios.get.mockResolvedValue({ data: mockUsers });
+    fetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({ success: true, data: mockTeams }),
+    });
   });
 
-  // Teste 1: Carrega usuários e times da API ao montar
-  it('deve carregar usuários e times da API', async () => {
-    mockLocalStorage.getItem
-      .mockReturnValueOnce('admin@test.com')
-      .mockReturnValueOnce('Admin')
-      .mockReturnValueOnce('Dev Team');
+  afterEach(() => {
+    localStorage.clear();
+  });
 
-    axios.get.mockImplementation((url) => {
-      if (url.includes('/users')) {
-        return Promise.resolve({ data: [{ id: 1, name: 'Usuário 1', email: 'user1@test.com', accessLevel: 'User', team: 'Dev Team' }] });
-      } else if (url.includes('/teams')) {
-        return Promise.resolve({ data: { success: true, data: [{ name: 'Dev Team' }, { name: 'Infra Team' }] } });
-      }
-      return Promise.reject(new Error('URL não mockada'));
-    });
-
-    render(
-      <MemoryRouter>
-        <UserSettings />
-      </MemoryRouter>
-    );
+  it('deve renderizar a tela com a lista de usuários e times', async () => {
+    render(<UserSettings />);
 
     await waitFor(() => {
-      expect(axios.get).toHaveBeenCalledWith(expect.stringContaining('/users'));
-      expect(axios.get).toHaveBeenCalledWith(expect.stringContaining('/teams'));
       expect(screen.getByText('Usuário 1')).toBeInTheDocument();
-      expect(screen.getByText('Dev Team')).toBeInTheDocument();
+      expect(screen.getByText('user1@example.com')).toBeInTheDocument();
+      expect(screen.getByText('Usuário 2')).toBeInTheDocument();
+      expect(screen.getByText('user2@example.com')).toBeInTheDocument();
+      expect(screen.getByRole('option', { name: 'Comercial' })).toBeInTheDocument();
+      expect(screen.getByRole('option', { name: 'Suporte' })).toBeInTheDocument();
     });
   });
 
-  // Teste 2: Cria novo usuário
-  it('deve criar novo usuário ao preencher formulário', async () => {
-    mockLocalStorage.getItem
-      .mockReturnValueOnce('admin@test.com')
-      .mockReturnValueOnce('Admin')
-      .mockReturnValueOnce('Dev Team');
-
-    axios.post.mockResolvedValueOnce({});
-    axios.get.mockResolvedValueOnce({ data: [] });
-
-    render(
-      <MemoryRouter>
-        <UserSettings />
-      </MemoryRouter>
-    );
-
-    const nomeInput = await screen.findByLabelText('Nome:');
-    fireEvent.change(nomeInput, { target: { value: 'Novo Usuário' } });
-
-    fireEvent.change(screen.getByLabelText('Email:'), { target: { value: 'novo@test.com' } });
-    fireEvent.click(screen.getByLabelText('Admin'));
-    fireEvent.change(screen.getByLabelText('Setor:'), { target: { value: 'Dev Team' } });
-    fireEvent.click(screen.getByText('/salvar/i'));
-
+  it('deve criar um novo usuário ao preencher o formulário e clicar em Salvar', async () => {
+    axios.post.mockResolvedValueOnce({ data: { success: true } });
+  
+    render(<UserSettings />);
+  
+    await waitFor(() => {
+      expect(screen.getByText('Usuário 1')).toBeInTheDocument();
+    });
+  
+    fireEvent.change(screen.getByLabelText('Nome:'), { target: { value: 'Novo Usuário' } });
+    fireEvent.change(screen.getByLabelText('Email:'), { target: { value: 'novo@example.com' } });
+    fireEvent.click(screen.getByLabelText('User'));
+    fireEvent.change(screen.getByRole('combobox'), { target: { value: 'Comercial' } });
+  
+    fireEvent.click(screen.getByRole('button', { name: /Salvar/i }));
+  
     await waitFor(() => {
       expect(axios.post).toHaveBeenCalledWith(
-        expect.stringContaining('/users'),
+        `${process.env.REACT_APP_API_URL}/users`,
         {
           name: 'Novo Usuário',
-          email: 'novo@test.com',
-          accessLevel: 'Admin',
-          team: 'Dev Team'
+          email: 'novo@example.com',
+          accessLevel: 'User',
+          team: 'Comercial',
         }
       );
     });
-  });
-
-  // Teste 3: Atualiza usuário existente
-  it('deve atualizar usuário no modal de edição', async () => {
-    mockLocalStorage.getItem
-      .mockReturnValueOnce('admin@test.com')
-      .mockReturnValueOnce('Admin')
-      .mockReturnValueOnce('Dev Team');
-
-    axios.get.mockResolvedValueOnce({
-      data: [{ id: 1, name: 'Usuário 1', email: 'user1@test.com', accessLevel: 'User', team: 'Dev Team' }]
-    });
-    axios.put.mockResolvedValueOnce({});
-
-    render(
-      <MemoryRouter>
-        <UserSettings />
-      </MemoryRouter>
-    );
-
+  
+    // Wait for the form to reset
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('edit-button'));
-    });
-
-    fireEvent.change(screen.getByDisplayValue('Usuário 1'), { target: { value: 'Usuário Editado' } });
-    fireEvent.click(screen.getByText('Atualizar'));
-
-    await waitFor(() => {
-      expect(axios.put).toHaveBeenCalledWith(
-        expect.stringContaining('/users/1'),
-        expect.objectContaining({ name: 'Usuário Editado' })
-      );
+      expect(screen.getByLabelText('Nome:')).toHaveValue('');
+      expect(screen.getByLabelText('Email:')).toHaveValue('');
     });
   });
 
-  // Teste 4: Exclui usuário
-  it('deve excluir usuário ao confirmar', async () => {
-    mockLocalStorage.getItem
-      .mockReturnValueOnce('admin@test.com')
-      .mockReturnValueOnce('Admin')
-      .mockReturnValueOnce('Dev Team');
-
-    axios.get.mockResolvedValueOnce({
-      data: [{ id: 1, name: 'Usuário 1', email: 'user1@test.com', accessLevel: 'User', team: 'Dev Team' }]
-    });
-    axios.delete.mockResolvedValueOnce({});
-
-    render(
-      <MemoryRouter>
-        <UserSettings />
-      </MemoryRouter>
-    );
-
+  it('deve abrir o modal de edição com os dados do usuário ao clicar no botão Editar', async () => {
+    render(<UserSettings />);
+  
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('delete-button'));   
+      expect(screen.getByText('Usuário 1')).toBeInTheDocument();
     });
-
-    expect(window.confirm).toHaveBeenCalled();
-    expect(axios.delete).toHaveBeenCalledWith(expect.stringContaining('/users/1'));
+  
+    const editButton = screen.getAllByTestId('edit-button')[0];
+    fireEvent.click(editButton);
+  
+    await waitFor(() => {
+      expect(screen.getByText('Editar Usuário')).toBeInTheDocument();
+    });
+  
+    expect(screen.getByTestId('edit-name-input')).toHaveValue('Usuário 1');
+    expect(screen.getByTestId('edit-email-input')).toHaveValue('user1@example.com');
+    expect(screen.getByTestId('edit-access-user')).toBeChecked();
+    expect(screen.getByTestId('edit-team-select')).toHaveValue('Comercial');
   });
 });

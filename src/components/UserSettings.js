@@ -182,17 +182,19 @@ const UserSettings = () => {
           <h2>Informações Pessoais:</h2>
           <div className="form-field">
             <label htmlFor='name'>Nome:</label>
-            <input 
-              type="text" 
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              placeholder="Digite o nome do usuário..."
-            />
+            <input
+            id="name"
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleInputChange}
+            placeholder="Digite o nome do usuário..."
+          />
           </div>
           <div className="form-field">
-            <label>Email:</label>
+            <label htmlFor='email'>Email:</label>
             <input 
+              id="email"
               type="email" 
               name="email"
               value={formData.email}
@@ -286,66 +288,71 @@ const UserSettings = () => {
 
       {/* Modal de Edição */}
       {showModal && (
-        <div className="modal active">
+        <div className="modal active" data-testid="edit-modal">
           <div className="modal-content">
             <span className="close-button" onClick={() => setShowModal(false)}>
-              &times;
+              ×
             </span>
             <h2>Editar Usuário</h2>
             <div className="form-field">
               <label>Nome:</label>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 name="name"
                 value={editData.name}
                 onChange={handleEditInputChange}
+                data-testid="edit-name-input"
               />
             </div>
             <div className="form-field">
               <label>Email:</label>
-              <input 
-                type="email" 
+              <input
+                type="email"
                 name="email"
                 value={editData.email}
                 onChange={handleEditInputChange}
+                data-testid="edit-email-input"
               />
             </div>
             <div className="form-field">
               <label>Acesso:</label>
               <div className="checkbox-group">
                 <label>
-                  <input 
-                    type="radio" 
-                    name="editAccessLevel" 
-                    value="Admin" 
+                  <input
+                    type="radio"
+                    name="editAccessLevel"
+                    value="Admin"
                     checked={editData.accessLevel === 'Admin'}
                     onChange={handleEditRadioChange}
+                    data-testid="edit-access-admin"
                   /> Admin
                 </label>
                 <label>
-                  <input 
-                    type="radio" 
-                    name="editAccessLevel" 
-                    value="User" 
+                  <input
+                    type="radio"
+                    name="editAccessLevel"
+                    value="User"
                     checked={editData.accessLevel === 'User'}
                     onChange={handleEditRadioChange}
+                    data-testid="edit-access-user"
                   /> User
                 </label>
               </div>
             </div>
             <div className="form-field">
               <label>Setor:</label>
-              <select 
-              name="team"
-              value={editData.team}
-              onChange={handleEditInputChange}
-              required
-            >
-              <option value="" disabled>Selecione um setor</option>
-              {teams.map(team => (
-                <option key={team} value={team}>{team}</option>
-              ))}
-            </select>
+              <select
+                name="team"
+                value={editData.team}
+                onChange={handleEditInputChange}
+                required
+                data-testid="edit-team-select"
+              >
+                <option value="" disabled>Selecione um setor</option>
+                {teams.map(team => (
+                  <option key={team} value={team}>{team}</option>
+                ))}
+              </select>
             </div>
             <button className="save-button" onClick={handleUpdate}>
               Atualizar

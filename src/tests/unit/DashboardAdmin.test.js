@@ -7,9 +7,11 @@ describe('DashboardAdmin', () => {
 
   test('Should render title', () => {
     render(
-    <MemoryRouter>
-      <DashboardAdmin />
-    </MemoryRouter>);
+        <MemoryRouter>
+        <DashboardAdmin />
+        </MemoryRouter>
+    );
+
     expect(screen.getByText('DASHBOARDS / GERENCIAMENTO DAS DASHBOARDS /')).toBeInTheDocument();
   });
 

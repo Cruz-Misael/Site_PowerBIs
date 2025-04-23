@@ -24,17 +24,11 @@ function Teams() {
         
         try {
           console.log('Iniciando requisição para /teams');
-          const startTime = Date.now();
           
           const response = await fetch(`${API_BASE_URL}/teams`, {
             headers: {
               'Content-Type': 'application/json',
             }
-          });
-      
-          console.log(`Resposta recebida em ${Date.now() - startTime}ms`, {
-            status: response.status,
-            statusText: response.statusText
           });
       
           // Verifica se a resposta é JSON válido
@@ -166,12 +160,12 @@ function Teams() {
         }
     };
 
-    const handleCancel = () => {
-        setFormData({ name: '', description: '' });
-        setEditingId(null);
-        setError(null);
-        setSuccess(null);
-    };
+    // const handleCancel = () => {
+    //     setFormData({ name: '', description: '' });
+    //     setEditingId(null);
+    //     setError(null);
+    //     setSuccess(null);
+    // };
 
     const handleBack = () => {
         navigate('/dashboard');
@@ -183,7 +177,7 @@ function Teams() {
             <img src={logo} alt="Logo" className="app-logo" />
             <h1 className="app-title">DASHBOARDS / CONFIGURAÇÕES DE TIMES / </h1>
             <div>        
-              <button className="back-button" onClick={() => navigate('/dashboard')}>
+              <button className="back-button" onClick={handleBack}>
                 Voltar
               </button>
             </div>
@@ -286,7 +280,8 @@ function Teams() {
                           <button onClick={() => handleEdit(team)} className="edit-button">
                             ✏️
                           </button>
-                          <button onClick={() => handleDelete(team.id)} className="delete-button">
+                          <button onClick={() => handleDelete(team.id)} className="delete-button" aria-label={`Deletar time`}
+                          >
                             ❌
                           </button>
                         </td>
