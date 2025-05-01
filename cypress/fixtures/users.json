@@ -1,0 +1,12 @@
+{
+  "admin": {
+    "email": "admin@teste.com",
+    "password": "SenhaAdmin123!",
+    "accessLevel": "Admin"
+  },
+  "user": {
+    "email": "usuario@teste.com",
+    "password": "SenhaUser123!",
+    "accessLevel": "User"
+  }
+}
