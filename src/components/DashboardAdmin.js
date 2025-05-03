@@ -7,6 +7,12 @@ import '../styles/DashboardAdmin.css';
 import logo from '../assets/sebraFundoBranco.jpg';
 const API_BASE_URL = process.env.REACT_APP_API_URL;
 
+function TestingCItool() {
+  console.log('Testing CI tool');
+};
+
+TestingCItool();
+
 function DashboardAdmin() {
   const [dashboards, setDashboards] = useState([]);
   const [teams, setTeams] = useState([]);
