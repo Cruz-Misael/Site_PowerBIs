@@ -7,13 +7,6 @@ import '../styles/DashboardAdmin.css';
 import logo from '../assets/sebraFundoBranco.jpg';
 const API_BASE_URL = process.env.REACT_APP_API_URL;
 
-
-function testFeature() {
-  console.log('Feature testada com sucesso!');
-};
-
-testFeature();
-
 function DashboardAdmin() {
   const [dashboards, setDashboards] = useState([]);
   const [teams, setTeams] = useState([]);
