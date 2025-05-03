@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import DashboardAdmin from '../../components/DashboardAdmin'; // Caminho corrigido
 import '@testing-library/jest-dom';
 
+
 // Mock das chamadas API
 beforeEach(() => {
   global.fetch = jest.fn()

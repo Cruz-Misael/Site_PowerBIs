@@ -17,41 +17,43 @@ function Teams() {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const navigate = useNavigate();
+    
     const fetchTeams = async () => {
       setLoading(true);
       setError(null);
       
       try {
-        const response = await fetch(`${API_BASE_URL}/teams`, {
-          headers: { 'Content-Type': 'application/json' },
-        });
-      
-        if (!response.ok) {
-          // Handle cases where response is not valid
-          const errorText = await response.text();
-          throw new Error(`Erro ao buscar times: ${errorText}`);
+        const response = await fetch(API_BASE_URL);
+        
+        // Verificação robusta da resposta
+        if (!response || !response.ok) {
+          throw new Error(`HTTP error! status: ${response?.status || 'no response'}`);
         }
-      
+    
         const contentType = response.headers?.get('content-type');
-        if (!contentType || !contentType.includes('application/json')) {
+        if (!contentType?.includes('application/json')) {
           const text = await response.text();
-          throw new Error(`Resposta não é JSON: ${text.substring(0, 100)}...`);
+          throw new Error(`Expected JSON but got ${contentType}`);
         }
-      
-        const result = await response.json();
-        if (!result.success) {
-          throw new Error(result.message || 'Resposta mal formatada do servidor');
+    
+        const data = await response.json();
+        
+        // Validação da estrutura dos dados
+        if (!data?.success || !Array.isArray(data.data)) {
+          throw new Error('Invalid data structure from API');
         }
-      
-        setTeams(result.data || []);
+    
+        setTeams(data.data);
+        setError(null);
       } catch (err) {
-        console.error('Erro completo:', {
+        console.error('Failed to fetch teams:', {
           message: err.message,
-          stack: err.stack,
-          response: err.response,
+          stack: err.stack
         });
-        setError(err.message || 'Erro ao carregar times');
-        setTeams([]); // Ensure state consistency
+        setError('Failed to load teams');
+        setTeams([]); // Fallback para array vazio
+      } finally {
+        setLoading(false);
       }
     };
 

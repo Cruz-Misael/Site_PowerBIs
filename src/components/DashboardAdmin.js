@@ -7,12 +7,6 @@ import '../styles/DashboardAdmin.css';
 import logo from '../assets/sebraFundoBranco.jpg';
 const API_BASE_URL = process.env.REACT_APP_API_URL;
 
-function TestingCItool() {
-  console.log('Testing CI tool');
-};
-
-TestingCItool();
-
 function DashboardAdmin() {
   const [dashboards, setDashboards] = useState([]);
   const [teams, setTeams] = useState([]);
@@ -67,22 +61,23 @@ function DashboardAdmin() {
   const [dashboardAccess, setDashboardAccess] = useState({}); // Novo estado para armazenar os acessos
 
   
+  // Example for fetchDashboardAccess in DashboardAdmin.js
   const fetchDashboardAccess = async (dashboardId) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/dashboard/access?dashboardId=${dashboardId}`);
-      if (!response.ok) {
-        throw new Error(`Erro ao buscar acessos: ${response.status}`);
-      }
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        const text = await response.text();
-        throw new Error(`Resposta não é JSON: ${text.substring(0, 100)}...`);
-      }
-      const data = await response.json();
-      return data.data || []; // Retorna array de acessos ou array vazio
+        const response = await fetch(`${API_BASE_URL}/dashboard/access?dashboardId=${dashboardId}`);
+        if (!response || !response.ok) {
+            throw new Error(`Erro ao buscar acessos: ${response?.status || "sem resposta"}`);
+        }
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            throw new Error(`Resposta não é JSON: ${text.substring(0, 100)}...`);
+        }
+        const data = await response.json();
+        return data.data || [];
     } catch (error) {
-      console.error(`Erro ao buscar acessos para dashboard ${dashboardId}:`, error);
-      return [];
+        console.error(`Erro ao buscar acessos para dashboard ${dashboardId}:`, error);
+        return [];
     }
   };
 

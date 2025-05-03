@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import Login from '../../components/Login';
 import '@testing-library/jest-dom';
 
+
 // Mock global do fetch
 global.fetch = jest.fn();
 
