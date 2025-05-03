@@ -22,50 +22,36 @@ function Teams() {
       setError(null);
       
       try {
-        // 1. Verificação mais segura da resposta
         const response = await fetch(`${API_BASE_URL}/teams`, {
           headers: { 'Content-Type': 'application/json' },
         });
-    
-        // 2. Verifica se a resposta existe
-        if (!response) {
-          throw new Error('Nenhuma resposta recebida do servidor');
-        }
-    
-        // 3. Verificação de conteúdo mais segura
-        const contentType = response.headers?.get('content-type') || '';
-        if (!contentType.includes('application/json')) {
-          const text = await response.text();
-          console.error('Resposta não é JSON:', text.substring(0, 100));
-          throw new Error(`Resposta inválida do servidor (tipo: ${contentType})`);
-        }
-    
-        // 4. Processamento dos dados com fallbacks
-        const result = await response.json();
-        console.log('Dados recebidos:', result);
-    
+      
         if (!response.ok) {
-          throw new Error(result?.message || `Erro HTTP ${response.status}`);
+          // Handle cases where response is not valid
+          const errorText = await response.text();
+          throw new Error(`Erro ao buscar times: ${errorText}`);
         }
-    
-        if (!result?.success) {
-          throw new Error(result?.message || 'Estrutura de dados inválida');
+      
+        const contentType = response.headers?.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          const text = await response.text();
+          throw new Error(`Resposta não é JSON: ${text.substring(0, 100)}...`);
         }
-    
-        // 5. Garante que result.data seja um array
-        const teamsData = Array.isArray(result?.data) ? result.data : [];
-        setTeams(teamsData.map(team => team?.name || 'Nome não disponível')); // Mapeamento seguro
-    
+      
+        const result = await response.json();
+        if (!result.success) {
+          throw new Error(result.message || 'Resposta mal formatada do servidor');
+        }
+      
+        setTeams(result.data || []);
       } catch (err) {
-        console.error('Erro ao carregar times:', {
+        console.error('Erro completo:', {
           message: err.message,
           stack: err.stack,
+          response: err.response,
         });
-        
-        setError(err.message || 'Falha ao carregar equipes');
-        setTeams(["Comercial", "Suporte"]); // Fallback explícito
-      } finally {
-        setLoading(false);
+        setError(err.message || 'Erro ao carregar times');
+        setTeams([]); // Ensure state consistency
       }
     };
 

@@ -70,20 +70,19 @@ function DashboardAdmin() {
   const fetchDashboardAccess = async (dashboardId) => {
     try {
       const response = await fetch(`${API_BASE_URL}/dashboard/access?dashboardId=${dashboardId}`);
-      
-      if (!response) throw new Error('Sem resposta do servidor');
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      
-      const contentType = response.headers?.get('content-type');
-      if (!contentType?.includes('application/json')) {
-        throw new Error('Resposta não é JSON');
+      if (!response.ok) {
+        throw new Error(`Erro ao buscar acessos: ${response.status}`);
       }
-  
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await response.text();
+        throw new Error(`Resposta não é JSON: ${text.substring(0, 100)}...`);
+      }
       const data = await response.json();
-      return data?.data || []; // Retorna array vazio se data.data não existir
+      return data.data || []; // Retorna array de acessos ou array vazio
     } catch (error) {
-      console.error(`Erro ao buscar acessos: ${error.message}`);
-      return []; // Fallback seguro
+      console.error(`Erro ao buscar acessos para dashboard ${dashboardId}:`, error);
+      return [];
     }
   };
 
