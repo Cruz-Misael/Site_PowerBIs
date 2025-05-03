@@ -61,15 +61,23 @@ function DashboardAdmin() {
   const [dashboardAccess, setDashboardAccess] = useState({}); // Novo estado para armazenar os acessos
 
   
+  // Example for fetchDashboardAccess in DashboardAdmin.js
   const fetchDashboardAccess = async (dashboardId) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/dashboard/access?dashboardId=${dashboardId}`);
-      if (!response.ok) throw new Error('Erro ao buscar acessos');
-      const data = await response.json();
-      return data.data || []; // Retorna array de acessos ou array vazio
+        const response = await fetch(`${API_BASE_URL}/dashboard/access?dashboardId=${dashboardId}`);
+        if (!response || !response.ok) {
+            throw new Error(`Erro ao buscar acessos: ${response?.status || "sem resposta"}`);
+        }
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            throw new Error(`Resposta não é JSON: ${text.substring(0, 100)}...`);
+        }
+        const data = await response.json();
+        return data.data || [];
     } catch (error) {
-      console.error(`Erro ao buscar acessos para dashboard ${dashboardId}:`, error);
-      return [];
+        console.error(`Erro ao buscar acessos para dashboard ${dashboardId}:`, error);
+        return [];
     }
   };
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import UserSettings from '../../components/UserSettings';
 import { useNavigate } from 'react-router-dom';
@@ -54,22 +53,25 @@ describe('UserSettings - Testes Unitários', () => {
     jest.clearAllMocks();
   });
 
-  it('deve renderizar o formulário e a tabela de usuários corretamente', () => {
+  it('deve renderizar o formulário e a tabela de usuários corretamente', async () => {
     render(<UserSettings />);
-
+  
     // Verifica os campos do formulário
     expect(screen.getByLabelText('Nome:')).toBeInTheDocument();
     expect(screen.getByLabelText('Email:')).toBeInTheDocument();
     expect(screen.getByLabelText('User')).toBeInTheDocument();
     expect(screen.getByRole('combobox')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Salvar/i })).toBeInTheDocument();
-
-    // Verifica a tabela de usuários
-    expect(screen.getByText('Usuário 1')).toBeInTheDocument();
-    expect(screen.getByText('user1@example.com')).toBeInTheDocument();
-    expect(screen.getByText('Usuário 2')).toBeInTheDocument();
-    expect(screen.getByText('user2@example.com')).toBeInTheDocument();
+  
+    // Aguarda os dados dos usuários serem carregados e renderizados
+    await waitFor(() => {
+      expect(screen.getByText('Usuário 1')).toBeInTheDocument();
+      expect(screen.getByText('user1@example.com')).toBeInTheDocument();
+      expect(screen.getByText('Usuário 2')).toBeInTheDocument();
+      expect(screen.getByText('user2@example.com')).toBeInTheDocument();
+    });
   });
+  
 
   it('deve atualizar o campo Nome ao digitar', () => {
     render(<UserSettings />);

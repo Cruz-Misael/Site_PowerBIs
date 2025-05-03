@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '@testing-library/jest-dom';
 
+
 // Mock do react-router-dom
 jest.mock('react-router-dom', () => ({
   useNavigate: jest.fn(),

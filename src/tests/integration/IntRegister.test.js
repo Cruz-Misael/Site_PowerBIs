@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import ChangePassword from '../../components/Register';
 import { useNavigate } from 'react-router-dom';
 
+
 // Mock das dependências
 jest.mock('react-router-dom', () => ({
   useNavigate: jest.fn(),

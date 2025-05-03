@@ -17,58 +17,45 @@ function Teams() {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const navigate = useNavigate();
-
+    
     const fetchTeams = async () => {
-        setLoading(true);
-        setError(null);
+      setLoading(true);
+      setError(null);
+      
+      try {
+        const response = await fetch(API_BASE_URL);
         
-        try {
-          console.log('Iniciando requisição para /teams');
-          
-          const response = await fetch(`${API_BASE_URL}/teams`, {
-            headers: {
-              'Content-Type': 'application/json',
-            }
-          });
-      
-          // Verifica se a resposta é JSON válido
-          const contentType = response.headers.get('content-type');
-          if (!contentType || !contentType.includes('application/json')) {
-            const text = await response.text();
-            throw new Error(`Resposta não é JSON: ${text.substring(0, 100)}...`);
-          }
-      
-          const result = await response.json();
-          console.log('Dados recebidos:', result);
-      
-          if (!response.ok) {
-            throw new Error(result.message || `Erro ${response.status}`);
-          }
-      
-          if (!result.success) {
-            throw new Error(result.message || 'Resposta mal formatada do servidor');
-          }
-      
-          if (!Array.isArray(result.data)) {
-            console.warn('Dados não são um array:', result.data);
-            setTeams([]);
-          } else {
-            setTeams(result.data);
-          }
-      
-        } catch (err) {
-          console.error('Erro completo:', {
-            message: err.message,
-            stack: err.stack,
-            response: err.response
-          });
-          
-          setError(err.message || 'Erro ao carregar times');
-          setTeams([]); // Garante que o estado não fique inconsistente
-        } finally {
-          setLoading(false);
+        // Verificação robusta da resposta
+        if (!response || !response.ok) {
+          throw new Error(`HTTP error! status: ${response?.status || 'no response'}`);
         }
-      };
+    
+        const contentType = response.headers?.get('content-type');
+        if (!contentType?.includes('application/json')) {
+          const text = await response.text();
+          throw new Error(`Expected JSON but got ${contentType}`);
+        }
+    
+        const data = await response.json();
+        
+        // Validação da estrutura dos dados
+        if (!data?.success || !Array.isArray(data.data)) {
+          throw new Error('Invalid data structure from API');
+        }
+    
+        setTeams(data.data);
+        setError(null);
+      } catch (err) {
+        console.error('Failed to fetch teams:', {
+          message: err.message,
+          stack: err.stack
+        });
+        setError('Failed to load teams');
+        setTeams([]); // Fallback para array vazio
+      } finally {
+        setLoading(false);
+      }
+    };
 
     useEffect(() => {
         fetchTeams();
@@ -159,13 +146,6 @@ function Teams() {
             }
         }
     };
-
-    // const handleCancel = () => {
-    //     setFormData({ name: '', description: '' });
-    //     setEditingId(null);
-    //     setError(null);
-    //     setSuccess(null);
-    // };
 
     const handleBack = () => {
         navigate('/dashboard');
