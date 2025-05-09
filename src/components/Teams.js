@@ -23,7 +23,7 @@ function Teams() {
       setError(null);
       
       try {
-        const response = await fetch(API_BASE_URL);
+        const response = await fetch(`${API_BASE_URL}/teams`);
         
         // Verificação robusta da resposta
         if (!response || !response.ok) {
