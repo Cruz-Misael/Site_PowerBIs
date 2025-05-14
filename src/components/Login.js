@@ -4,7 +4,7 @@ import '../styles/Login.css';
 import logo from '../assets/logo_personalizado.png'; // Importando a imagem do logo
 const API_BASE_URL = process.env.REACT_APP_API_URL;
 
-//testando pull request de outras máquinas.
+//testing news tasks another computer
 
 const Login = () => {
   const [email, setEmail] = useState('');
