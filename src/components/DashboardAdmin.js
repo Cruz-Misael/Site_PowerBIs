@@ -186,7 +186,7 @@ function DashboardAdmin() {
 
   const handleSaveDashboardEdit = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/dashboard/${editingDashboard.id}`, {
+      const response = await fetch(`${API_BASE_URL}/dashboards/${editingDashboard.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -207,7 +207,7 @@ function DashboardAdmin() {
     if (!window.confirm('Deseja realmente deletar este dashboard?')) return;
 
     try {
-      const response = await fetch(`${API_BASE_URL}/dashboard/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/dashboards/${id}`, {
         method: 'DELETE'
       });
       if (!response.ok) throw new Error('Erro ao deletar');
