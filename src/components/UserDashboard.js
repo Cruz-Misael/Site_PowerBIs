@@ -94,8 +94,8 @@ const UserDashboard = () => {
           DASHBOARDS: <span>{userTeam}</span> /
         </h1>
         <div className="button-container">
-          <button className="config-btn" onClick={goToConfig}>Configurações</button>
-          <button className="DashboardAdmin-btn" onClick={DashboardAdmin}>Dashboard Admin</button>
+          <button className="config-btn" onClick={goToConfig}>Usuários</button>
+          <button className="DashboardAdmin-btn" onClick={DashboardAdmin}>Dashboards</button>
           <button className="Teams-btn" onClick={Teams}>Times</button>
           <button className="logout-btn" onClick={logout}>Sair</button>
         </div>
