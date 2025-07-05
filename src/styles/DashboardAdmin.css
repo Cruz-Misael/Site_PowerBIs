@@ -229,3 +229,103 @@
 .remove-access:hover {
   background-color: #831010;
 }
+
+.dashboard-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.edit-dashboard,
+.delete-dashboard {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-dashboard {
+  background-color: #007bff;
+  color: white;
+}
+
+.edit-dashboard:hover {
+  background-color: #0056b3;
+}
+
+.delete-dashboard {
+  background-color: #d9534f;
+  color: white;
+}
+
+.delete-dashboard:hover {
+  background-color: #831010;
+}
+.edit-dashboard-container {
+  flex: 1;
+  padding: 50px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: calc(100vh - 180px);
+}
+
+.edit-dashboard-container h2 {
+  margin: 0 0 15px 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.edit-dashboard-container input,
+.edit-dashboard-container textarea {
+  width: 95%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.edit-dashboard-container input:focus,
+.edit-dashboard-container textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+.edit-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.save-edit {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.save-edit:hover {
+  background-color: #218838;
+}
+
+.cancel-edit {
+  background-color: #6c757d;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.cancel-edit:hover {
+  background-color: #5a6268;
+}

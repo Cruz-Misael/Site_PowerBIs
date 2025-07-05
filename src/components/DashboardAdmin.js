@@ -177,6 +177,48 @@ function DashboardAdmin() {
     }
   };
 
+  //novas funcionalidades
+  const [editingDashboard, setEditingDashboard] = useState(null);
+
+  const handleEditDashboard = (dashboard) => {
+    setEditingDashboard({ ...dashboard }); // Abre modal/form
+  };
+
+  const handleSaveDashboardEdit = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/dashboard/${editingDashboard.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: editingDashboard.title,
+          description: editingDashboard.description
+        })
+      });
+      if (!response.ok) throw new Error('Erro ao editar dashboard');
+      setEditingDashboard(null);
+      fetchDashboards(); // Atualiza lista
+    } catch (error) {
+      console.error(error);
+      alert('Erro ao salvar edição');
+    }
+  };
+
+  const handleDeleteDashboard = async (id) => {
+    if (!window.confirm('Deseja realmente deletar este dashboard?')) return;
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/dashboard/${id}`, {
+        method: 'DELETE'
+      });
+      if (!response.ok) throw new Error('Erro ao deletar');
+      fetchDashboards();
+    } catch (error) {
+      console.error(error);
+      alert('Erro ao deletar dashboard');
+    }
+  };
+
+
   return (
     <div className="dashboard-admin">
       <header className="app-header">
@@ -216,7 +258,22 @@ function DashboardAdmin() {
             <div key={dashboard.id} className="dashboard-item">
               <h3>{dashboard.title}</h3>
               <p>{dashboard.description}</p>
-              
+
+              <div className="dashboard-actions">
+                <button
+                  className="edit-dashboard"
+                  onClick={() => handleEditDashboard(dashboard)}
+                >
+                  Editar
+                </button>
+                <button
+                  className="delete-dashboard"
+                  onClick={() => handleDeleteDashboard(dashboard.id)}
+                >
+                  Deletar
+                </button>
+              </div>
+
               {/* Mostra os times com acesso */}
               {dashboard.access && dashboard.access.length > 0 && (
                 <div className="current-access">
@@ -261,8 +318,43 @@ function DashboardAdmin() {
             </div>
           ))}
         </div>
+
+      {editingDashboard && (
+        <div className="edit-dashboard-container">
+          <h2>Editar Dashboard</h2>
+          <input
+            value={editingDashboard.title}
+            onChange={(e) =>
+              setEditingDashboard({ ...editingDashboard, title: e.target.value })
+            }
+            placeholder="Novo título"
+          />
+          <input
+            value={editingDashboard.url}
+            onChange={(e) =>
+              setEditingDashboard({ ...editingDashboard, url: e.target.value })
+            }
+            placeholder="Nova URL"
+          />
+          <textarea
+            value={editingDashboard.description}
+            onChange={(e) =>
+              setEditingDashboard({ ...editingDashboard, description: e.target.value })
+            }
+            placeholder="Nova descrição"
+          />
+          <div className="edit-buttons">
+            <button className="save-edit" onClick={handleSaveDashboardEdit}>
+              Salvar
+            </button>
+            <button className="cancel-edit" onClick={() => setEditingDashboard(null)}>
+              Cancelar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
-    </div>
+  </div>
   );
 }
 
