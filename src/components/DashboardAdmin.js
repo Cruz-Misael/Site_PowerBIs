@@ -191,7 +191,8 @@ function DashboardAdmin() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title: editingDashboard.title,
-          description: editingDashboard.description
+          description: editingDashboard.description,
+          url: editingDashboard.url
         })
       });
       if (!response.ok) throw new Error('Erro ao editar dashboard');
